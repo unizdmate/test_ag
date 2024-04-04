@@ -8,6 +8,9 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import HomeScreen from './screens/HomeScreen';
+import AddUserScreen from './screens/AddUserScreen';
+import {HomeScreenBottomTabButton} from './components/HomeScreenBottomTabButton';
+import {colors} from './constants/theme';
 
 const navigationContainer = createNavigationContainerRef();
 
@@ -41,6 +44,22 @@ const HomeStack = () => {
   );
 };
 
+const UserAdministrationStack = () => {
+  const Stack = createNativeStackNavigator();
+
+  return (
+    <Stack.Navigator
+      initialRouteName="AddUser"
+      screenOptions={{
+        headerShown: false,
+        animation: 'fade',
+        animationDuration: 100,
+      }}>
+      <Stack.Screen name="AddUser" component={AddUserScreen} />
+    </Stack.Navigator>
+  );
+};
+
 const MainBottomTabNavigator = () => {
   const Tab = createBottomTabNavigator();
 
@@ -53,11 +72,24 @@ const MainBottomTabNavigator = () => {
         tabBarShowLabel: true,
         tabBarIconStyle: {display: 'none'},
         tabBarStyle: {
-          height: 0,
-          display: 'none',
+          backgroundColor: colors.background,
+          borderTopWidth: 0,
         },
       }}>
-      <Tab.Screen name="HomeStack" component={HomeStack} />
+      <Tab.Screen
+        name="HomeStack"
+        component={HomeStack}
+        options={{
+          tabBarButton: props => <HomeScreenBottomTabButton {...props} />,
+        }}
+      />
+      <Tab.Screen
+        name="UserAdministrationStack"
+        component={UserAdministrationStack}
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
     </Tab.Navigator>
   );
 };

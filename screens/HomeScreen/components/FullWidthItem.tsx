@@ -1,6 +1,6 @@
 import {Image, ImageStyle, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {colors} from '../../../constants/theme';
+import {colors, sizings} from '../../../constants/theme';
 
 type FullWidthItemProps = {
   itemTitle: string;
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    padding: 32,
+    padding: sizings.basePadding * 8,
     minHeight: 155,
   },
   textContainer: {
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: colors.textPrimary,
     fontWeight: 'bold',
-    marginBottom: 5,
+    marginBottom: sizings.baseMargin,
   },
   itemExplanation: {
     fontSize: 16,
@@ -50,9 +50,9 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
   },
   imageContainer: {
-    width: 81,
-    height: 81,
-    borderRadius: 81,
+    width: 80,
+    height: 80,
+    borderRadius: 80,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.secondary,

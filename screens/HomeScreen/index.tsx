@@ -1,8 +1,14 @@
-import {useIsFocused} from '@react-navigation/native';
+import {
+  CommonActions,
+  useIsFocused,
+  useNavigation,
+} from '@react-navigation/native';
 import React, {useEffect, useRef} from 'react';
 import {
   Animated,
+  BackHandler,
   InteractionManager,
+  NativeEventSubscription,
   Platform,
   ScrollView,
   StyleSheet,
@@ -18,7 +24,57 @@ import {HomeScreenItem} from './components/HomeScreenItem';
 
 const HomeScreen = () => {
   const isFocused = useIsFocused();
+  const navigation = useNavigation();
+
   const scale = useRef(new Animated.Value(0)).current;
+
+  const hideBottomTabBar = () => {
+    navigation.getParent()?.setOptions({
+      tabBarStyle: {
+        display: 'none',
+      },
+    });
+  };
+
+  const showBottomTabBar = () => {
+    navigation.getParent()?.setOptions({
+      tabBarStyle: {
+        backgroundColor: colors.background,
+        borderTopWidth: 0,
+      },
+    });
+  };
+
+  useEffect(() => {
+    let backHandler: NativeEventSubscription;
+
+    if (isFocused) {
+      hideBottomTabBar();
+      backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+        return true;
+      });
+    }
+
+    return () => {
+      showBottomTabBar();
+      if (backHandler) backHandler.remove();
+    };
+  }, [isFocused, navigation]);
+
+  const navigateToAddUserScreen = () => {
+    Animated.timing(scale, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => {
+      navigation.dispatch(
+        CommonActions.navigate('UserAdministrationStack', {
+          screen: 'AddUser',
+          initial: false,
+        }),
+      );
+    });
+  };
 
   useEffect(() => {
     let task: any;
@@ -55,7 +111,9 @@ const HomeScreen = () => {
           </HomeScreenItem>
         </View>
         <View style={styles.row}>
-          <HomeScreenItem animatedScale={scale} onPress={() => {}}>
+          <HomeScreenItem
+            animatedScale={scale}
+            onPress={navigateToAddUserScreen}>
             <HalfWidthItem
               itemTitle="Add User"
               itemExplanation="Add a new user to the system"
@@ -91,8 +149,7 @@ const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
     width: '100%',
-    paddingHorizontal: sizings.basePadding * 4,
-    paddingVertical: sizings.basePadding * 2,
+    padding: sizings.basePadding * 4,
     backgroundColor: colors.background,
     borderWidth: 1,
   },

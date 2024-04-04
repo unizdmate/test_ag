@@ -1,5 +1,5 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {colors} from '../../../constants/theme';
+import {colors, sizings} from '../../../constants/theme';
 
 type HalfWidthItemProps = {
   itemTitle: string;
@@ -17,8 +17,10 @@ export const HalfWidthItem = ({
       <View style={mediumItemStyles.imageContainer}>
         <Image style={mediumItemStyles.image} source={icon} />
       </View>
-      <Text style={mediumItemStyles.title}>{itemTitle}</Text>
-      <Text style={mediumItemStyles.subtitle}>{itemExplanation}</Text>
+      <View style={mediumItemStyles.textContainer}>
+        <Text style={mediumItemStyles.itemTitle}>{itemTitle}</Text>
+        <Text style={mediumItemStyles.itemExplanation}>{itemExplanation}</Text>
+      </View>
     </View>
   );
 };
@@ -26,8 +28,8 @@ export const HalfWidthItem = ({
 const mediumItemStyles = StyleSheet.create({
   column: {
     gap: 5,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
+    paddingVertical: sizings.basePadding * 4,
+    paddingHorizontal: sizings.basePadding * 5,
     minHeight: 155,
   },
   imageContainer: {
@@ -37,14 +39,19 @@ const mediumItemStyles = StyleSheet.create({
     backgroundColor: colors.secondary,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: sizings.baseMargin * 2,
   },
   image: {height: 20, resizeMode: 'contain'},
-  title: {
+  textContainer: {},
+  itemTitle: {
     fontSize: 16,
     color: colors.textPrimary,
     fontWeight: 'bold',
-    marginBottom: 5,
+    marginBottom: sizings.baseMargin,
   },
-  subtitle: {fontSize: 14, color: colors.textSecondary, fontWeight: 'bold'},
+  itemExplanation: {
+    fontSize: 14,
+    color: colors.textSecondary,
+    fontWeight: 'normal',
+  },
 });

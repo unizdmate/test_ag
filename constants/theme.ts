@@ -10,7 +10,7 @@ const colors = {
 
 const sizings = {
   baseMargin: 4,
-  basePadding: 8,
+  basePadding: 4,
 };
 
 export {colors, sizings};
