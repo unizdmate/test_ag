@@ -1,32 +1,11 @@
 const colors = {
-  primary: '#673AB7',
-  secondary: '#FFD700',
-  accent: '#000000',
-  background: '#FFFFFF',
-  danger: '#FF0000',
-};
-
-const fonts = {
-  h1: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.primary,
-  },
-  h2: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: colors.primary,
-  },
-  body1: {
-    fontSize: 16,
-    fontWeight: 'normal',
-    color: colors.primary,
-  },
-  body2: {
-    fontSize: 14,
-    fontWeight: 'normal',
-    color: colors.primary,
-  },
+  primary: '#1A237E', // Dark Blue, a professional and calming color
+  secondary: '#4CAF50', // Green, often associated with success and growth
+  accent: '#FFC107', // Amber, a vibrant accent that stands out
+  background: '#121212', // Dark Gray, a softer alternative to pure black for backgrounds
+  danger: '#F44336', // Red, universally recognized as a color for warnings or errors
+  textPrimary: '#FFFFFF', // White, ensures high contrast against the dark background
+  textSecondary: '#F5F5F5', // Light Gray, a softer alternative to pure white for text
 };
 
 const sizings = {
@@ -34,4 +13,4 @@ const sizings = {
   basePadding: 8,
 };
 
-export {colors, fonts, sizings};
+export {colors, sizings};
