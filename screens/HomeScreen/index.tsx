@@ -9,26 +9,21 @@ import {
   Text,
   View,
 } from 'react-native';
+import {addUser, editUser, userDetails, usersList} from '../../constants/icons';
 import {colors, sizings} from '../../constants/theme';
-import {HomeScreenItem} from './components/HomeScreenItem';
-import {
-  addUser,
-  editUser,
-  removeUser,
-  userDetails,
-  usersList,
-} from '../../constants/icons';
+import {name, version} from '../../package.json';
 import {FullWidthItem} from './components/FullWidthItem';
 import {HalfWidthItem} from './components/HalfWidthItem';
-import {version, name} from '../../package.json';
+import {HomeScreenItem} from './components/HomeScreenItem';
 
 const HomeScreen = () => {
+  const isFocused = useIsFocused();
   const scale = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     let task: any;
 
-    if (true) {
+    if (isFocused) {
       task = InteractionManager.runAfterInteractions(() => {
         Animated.spring(scale, {
           toValue: 1,
@@ -43,7 +38,7 @@ const HomeScreen = () => {
       task?.cancel();
       scale?.resetAnimation();
     };
-  }, []);
+  }, [isFocused]);
 
   return (
     <ScrollView
