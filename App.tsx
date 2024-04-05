@@ -7,10 +7,13 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import HomeScreen from './screens/HomeScreen';
-import UsersListScreen from './screens/UsersListScreen';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
 import {HomeScreenBottomTabButton} from './components/HomeScreenBottomTabButton';
 import {colors} from './constants/theme';
+import HomeScreen from './screens/HomeScreen';
+import UsersListScreen from './screens/UsersListScreen';
+import {persistor, store} from './store';
 
 const navigationContainer = createNavigationContainerRef();
 
@@ -20,11 +23,15 @@ const App = () => {
 
 export default () => {
   return (
-    <SafeAreaProvider>
-      <NavigationContainer ref={navigationContainer}>
-        <App />
-      </NavigationContainer>
-    </SafeAreaProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <SafeAreaProvider>
+          <NavigationContainer ref={navigationContainer}>
+            <App />
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </PersistGate>
+    </Provider>
   );
 };
 

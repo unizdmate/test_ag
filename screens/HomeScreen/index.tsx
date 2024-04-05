@@ -18,6 +18,7 @@ import {usersList} from '../../constants/icons';
 import {colors, sizings} from '../../constants/theme';
 import {name, version} from '../../package.json';
 import {HomeScreenItem} from './components/HomeScreenItem';
+import AppInfo from './components/AppInfo';
 
 enum strings {
   ITEM_TITLE = 'User management',
@@ -108,7 +109,7 @@ const HomeScreen = () => {
         itemTitle={strings.ITEM_TITLE}
         itemExplanation={strings.ITEM_EXPLANATION}
         icon={usersList}></HomeScreenItem>
-      <Text style={styles.appDetails}>{`${name} v${version}`}</Text>
+      <AppInfo animatedScale={scale} info={`${name} v${version}`}></AppInfo>
     </ScrollView>
   );
 };
