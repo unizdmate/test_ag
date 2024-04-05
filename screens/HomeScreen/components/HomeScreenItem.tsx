@@ -7,18 +7,21 @@ import {
   Text,
   View,
 } from 'react-native';
-import {colors} from '../../../constants/theme';
+import {colors, sizings} from '../../../constants/theme';
 import {delay} from '../../../utils';
 
 type HomeScreenItemProps = {
-  children: React.ReactNode;
   onPress: () => void;
   animatedScale: Animated.Value;
+  itemTitle: string;
+  itemExplanation: string;
+  icon: any;
   style?: any;
 };
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 export const HomeScreenItem = (props: HomeScreenItemProps) => {
-  const {children, onPress, animatedScale, style} = props;
+  const {onPress, animatedScale, itemTitle, itemExplanation, icon, style} =
+    props;
 
   return (
     <AnimatedPressable
@@ -35,13 +38,25 @@ export const HomeScreenItem = (props: HomeScreenItemProps) => {
           transform: [{scale: animatedScale}],
         },
       ]}>
-      {children}
+      <View style={homeScreenItemStyles.row}>
+        <View style={homeScreenItemStyles.textContainer}>
+          <Text style={homeScreenItemStyles.itemTitle}>{itemTitle}</Text>
+          <Text style={homeScreenItemStyles.itemExplanation}>
+            {itemExplanation}
+          </Text>
+        </View>
+        <View style={homeScreenItemStyles.imageContainer}>
+          <Image
+            style={homeScreenItemStyles.image as ImageStyle}
+            source={icon}
+          />
+        </View>
+      </View>
     </AnimatedPressable>
   );
 };
 const homeScreenItemStyles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 10,
@@ -59,34 +74,24 @@ const homeScreenItemStyles = StyleSheet.create({
   textContainer: {
     maxWidth: '60%',
   },
-  title: {
+  itemTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
     color: colors.textPrimary,
-    marginBottom: 5,
+    fontWeight: 'bold',
+    marginBottom: sizings.baseMargin,
   },
-  explanation: {
+  itemExplanation: {
     fontSize: 16,
     color: colors.textSecondary,
     fontWeight: 'normal',
   },
   imageContainer: {
-    width: 81,
-    height: 81,
-    borderRadius: 81,
+    width: 80,
+    height: 80,
+    borderRadius: 80,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: colors.secondary,
   },
-  image: {width: 44, resizeMode: 'contain', tintColor: colors.textSecondary},
-  notificationContainer: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    width: 25,
-    height: 25,
-    borderRadius: 25,
-    backgroundColor: colors.background,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  image: {width: 44, resizeMode: 'contain'},
 });

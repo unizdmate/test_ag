@@ -13,13 +13,10 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  View,
 } from 'react-native';
-import {addUser, editUser, userDetails, usersList} from '../../constants/icons';
+import {usersList} from '../../constants/icons';
 import {colors, sizings} from '../../constants/theme';
 import {name, version} from '../../package.json';
-import {FullWidthItem} from './components/FullWidthItem';
-import {HalfWidthItem} from './components/HalfWidthItem';
 import {HomeScreenItem} from './components/HomeScreenItem';
 
 const HomeScreen = () => {
@@ -100,44 +97,12 @@ const HomeScreen = () => {
     <ScrollView
       style={styles.screenContainer}
       contentContainerStyle={styles.contentContainer}>
-      <View>
-        <View style={styles.row}>
-          <HomeScreenItem animatedScale={scale} onPress={() => {}}>
-            <FullWidthItem
-              itemTitle="Users List"
-              itemExplanation="List of all users in the system"
-              icon={usersList}
-            />
-          </HomeScreenItem>
-        </View>
-        <View style={styles.row}>
-          <HomeScreenItem
-            animatedScale={scale}
-            onPress={navigateToAddUserScreen}>
-            <HalfWidthItem
-              itemTitle="Add User"
-              itemExplanation="Add a new user to the system"
-              icon={addUser}
-            />
-          </HomeScreenItem>
-          <HomeScreenItem animatedScale={scale} onPress={() => {}}>
-            <HalfWidthItem
-              itemTitle="Edit User"
-              itemExplanation="Edit an existing user"
-              icon={editUser}
-            />
-          </HomeScreenItem>
-        </View>
-        <View style={styles.row}>
-          <HomeScreenItem animatedScale={scale} onPress={() => {}}>
-            <FullWidthItem
-              itemTitle="User details"
-              itemExplanation="View user details"
-              icon={userDetails}
-            />
-          </HomeScreenItem>
-        </View>
-      </View>
+      <HomeScreenItem
+        animatedScale={scale}
+        onPress={() => {}}
+        itemTitle="User management"
+        itemExplanation="View and manage all users, create new accounts, and delete existing ones."
+        icon={usersList}></HomeScreenItem>
       <Text style={styles.appDetails}>{`${name} v${version}`}</Text>
     </ScrollView>
   );
@@ -155,7 +120,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     flexGrow: 1,
   },
   row: {
@@ -168,5 +133,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.textSecondary,
     fontWeight: 'bold',
+    position: 'absolute',
+    bottom: 10,
   },
 });
