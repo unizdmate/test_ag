@@ -38,7 +38,7 @@ export const HomeScreenItem = (props: HomeScreenItemProps) => {
           transform: [{scale: animatedScale}],
         },
       ]}>
-      <View style={homeScreenItemStyles.row}>
+      <View style={homeScreenItemStyles.item}>
         <View style={homeScreenItemStyles.textContainer}>
           <Text style={homeScreenItemStyles.itemTitle}>{itemTitle}</Text>
           <Text style={homeScreenItemStyles.itemExplanation}>
@@ -63,7 +63,7 @@ const homeScreenItemStyles = StyleSheet.create({
     backgroundColor: colors.primary,
     borderRadius: 20,
   },
-  row: {
+  item: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

@@ -12,13 +12,12 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
 } from 'react-native';
 import {usersList} from '../../constants/icons';
 import {colors, sizings} from '../../constants/theme';
 import {name, version} from '../../package.json';
-import {HomeScreenItem} from './components/HomeScreenItem';
 import AppInfo from './components/AppInfo';
+import {HomeScreenItem} from './components/HomeScreenItem';
 
 enum strings {
   ITEM_TITLE = 'User management',
@@ -48,6 +47,30 @@ const HomeScreen = () => {
     });
   };
 
+  const navigateToUsersListScreen = () => {
+    Animated.timing(scale, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => {
+      navigation.dispatch(
+        CommonActions.navigate('UserAdministrationStack', {
+          screen: 'UsersList',
+          initial: false,
+        }),
+      );
+    });
+  };
+
+  /**
+   * This useEffect hook is responsible for hiding the bottom tab bar and adding a back button event listener
+   * when the screen is focused. When the screen is unfocused or unmounted, it shows the bottom tab bar and removes
+   * the back button event listener. Back button event listener is added to prevent the user from going back to the
+   * previous screen once they have navigated to the Home screen solely for the purpose of this test.
+   *
+   * @param {boolean} isFocused - A boolean indicating whether the screen is currently focused.
+   * @param {object} navigation - The navigation object from react-navigation.
+   */
   useEffect(() => {
     let backHandler: NativeEventSubscription;
 
@@ -64,21 +87,12 @@ const HomeScreen = () => {
     };
   }, [isFocused, navigation]);
 
-  const navigateToUsersListScreen = () => {
-    Animated.timing(scale, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start(() => {
-      navigation.dispatch(
-        CommonActions.navigate('UserAdministrationStack', {
-          screen: 'UsersList',
-          initial: false,
-        }),
-      );
-    });
-  };
-
+  /**
+   * This useEffect hook is responsible for starting an animation after all interactions have been processed
+   * when the screen is focused. When the screen is unfocused or unmounted, it cancels the task and resets the animation.
+   *
+   * @param {boolean} isFocused - A boolean indicating whether the screen is currently focused.
+   */
   useEffect(() => {
     let task: any;
 

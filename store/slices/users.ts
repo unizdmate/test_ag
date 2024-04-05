@@ -37,7 +37,7 @@ type UserState = {
 };
 
 const initialState: UserState = {
-  status: 'idle',
+  status: 'loading',
   users: [],
 };
 
@@ -62,6 +62,9 @@ const usersSlice = createSlice({
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.status = 'idle';
         state.users = action.payload;
+      })
+      .addCase(fetchUsers.rejected, state => {
+        state.status = 'failed';
       });
   },
 });

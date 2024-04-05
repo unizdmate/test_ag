@@ -26,6 +26,7 @@ const rootReducer = persistReducer(
   persistConfig,
   combineReducers({
     users: usersReducer,
+    // Add more reducers here if needed
   }),
 );
 
@@ -43,5 +44,5 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export const persistor = persistStore(store);
 
-//use this to purge state from storage
+//Uncomment the following line to purge state from storage in development
 //persistor.purge();
