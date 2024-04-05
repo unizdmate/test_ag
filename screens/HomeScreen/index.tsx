@@ -19,6 +19,11 @@ import {colors, sizings} from '../../constants/theme';
 import {name, version} from '../../package.json';
 import {HomeScreenItem} from './components/HomeScreenItem';
 
+enum strings {
+  ITEM_TITLE = 'User management',
+  ITEM_EXPLANATION = 'View and manage all users, create new accounts, or delete existing ones.',
+}
+
 const HomeScreen = () => {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
@@ -58,7 +63,7 @@ const HomeScreen = () => {
     };
   }, [isFocused, navigation]);
 
-  const navigateToAddUserScreen = () => {
+  const navigateToUsersListScreen = () => {
     Animated.timing(scale, {
       toValue: 0,
       duration: 300,
@@ -66,7 +71,7 @@ const HomeScreen = () => {
     }).start(() => {
       navigation.dispatch(
         CommonActions.navigate('UserAdministrationStack', {
-          screen: 'AddUser',
+          screen: 'UsersList',
           initial: false,
         }),
       );
@@ -99,9 +104,9 @@ const HomeScreen = () => {
       contentContainerStyle={styles.contentContainer}>
       <HomeScreenItem
         animatedScale={scale}
-        onPress={() => {}}
-        itemTitle="User management"
-        itemExplanation="View and manage all users, create new accounts, and delete existing ones."
+        onPress={navigateToUsersListScreen}
+        itemTitle={strings.ITEM_TITLE}
+        itemExplanation={strings.ITEM_EXPLANATION}
         icon={usersList}></HomeScreenItem>
       <Text style={styles.appDetails}>{`${name} v${version}`}</Text>
     </ScrollView>

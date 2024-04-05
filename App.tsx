@@ -8,7 +8,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import HomeScreen from './screens/HomeScreen';
-import AddUserScreen from './screens/AddUserScreen';
+import UsersListScreen from './screens/UsersListScreen';
 import {HomeScreenBottomTabButton} from './components/HomeScreenBottomTabButton';
 import {colors} from './constants/theme';
 
@@ -36,8 +36,8 @@ const HomeStack = () => {
       initialRouteName="Home"
       screenOptions={{
         headerShown: false,
-        animation: 'fade',
-        animationDuration: 100,
+        animation: 'simple_push',
+        animationDuration: 250,
       }}>
       <Stack.Screen name="Home" component={HomeScreen} />
     </Stack.Navigator>
@@ -52,10 +52,10 @@ const UserAdministrationStack = () => {
       initialRouteName="AddUser"
       screenOptions={{
         headerShown: false,
-        animation: 'fade',
-        animationDuration: 100,
+        animation: 'simple_push',
+        animationDuration: 250,
       }}>
-      <Stack.Screen name="AddUser" component={AddUserScreen} />
+      <Stack.Screen name="UsersList" component={UsersListScreen} />
     </Stack.Navigator>
   );
 };

@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.secondary,
     justifyContent: 'center',
     alignItems: 'center',
-    top: -25,
+    top: -30,
     elevation: 20,
     shadowColor: '#000',
     shadowOffset: {

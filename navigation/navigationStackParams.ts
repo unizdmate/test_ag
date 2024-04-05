@@ -3,5 +3,5 @@ export type HomeStackParamList = {
 };
 
 export type UserAdministrationStackParamList = {
-  AddUser: undefined;
+  UsersList: undefined;
 };
