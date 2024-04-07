@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {LabelPosition} from '@react-navigation/bottom-tabs/lib/typescript/src/types';
-import {colors} from '../../constants/theme';
+import {colors, sizings} from '../../../constants/theme';
 
 type TabBarLabelProps = {
   focused: boolean;
@@ -12,7 +12,7 @@ type TabBarLabelProps = {
 
 export const TabBarLabel = ({focused, children}: TabBarLabelProps) => {
   return (
-    <View>
+    <View style={styles.componentWrapper}>
       <Text style={focused ? styles.activeLabel : styles.inactiveLabel}>
         {children}
       </Text>
@@ -21,6 +21,9 @@ export const TabBarLabel = ({focused, children}: TabBarLabelProps) => {
 };
 
 const styles = StyleSheet.create({
+  componentWrapper: {
+    paddingBottom: sizings.basePadding * 4,
+  },
   activeLabel: {
     color: colors.textPrimary,
     fontSize: 14,

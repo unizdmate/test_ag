@@ -1,35 +1,6 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {usersService} from '../../api/services';
-
-type Geo = {
-  lat: string;
-  lng: string;
-};
-
-type Company = {
-  name: string;
-  catchPhrase: string;
-  bs: string;
-};
-
-type Address = {
-  street: string;
-  suite: string;
-  city: string;
-  zipcode: string;
-  geo: Geo;
-};
-
-type User = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  address: Address;
-  phone: string;
-  website: string;
-  company: Company;
-};
+import {User} from '../../shared/types';
 
 type UserState = {
   status: 'idle' | 'loading' | 'failed';

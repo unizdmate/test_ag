@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {colors, sizings} from '../../../constants/theme';
-import {delay} from '../../../utils';
+import {delay} from '../../../shared/utils';
 
 type HomeScreenItemProps = {
   onPress: () => void;

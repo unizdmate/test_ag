@@ -5,12 +5,15 @@ import {
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {Platform, SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
-import {HomeScreenBottomTabButton} from './components/HomeScreenBottomTabButton';
-import {TabBarLabel} from './components/TabBarLabel';
+import {HomeScreenBottomTabButton} from './shared/components/HomeScreenBottomTabButton';
+import {TabBarLabel} from './shared/components/TabBarLabel';
 import {colors} from './constants/theme';
 import AddNewUserScreen from './screens/AddNewUserScreen';
 import HomeScreen from './screens/HomeScreen';
@@ -29,12 +32,31 @@ const App = () => {
   return <MainBottomTabNavigator />;
 };
 
+const TopSafeArea = () => {
+  return (
+    <>
+      {Platform.OS === 'android' ? (
+        <StatusBar backgroundColor={colors.background} animated />
+      ) : null}
+      <SafeAreaView
+        // @ts-expect-error
+        edges={['top']}
+        style={{
+          flex: 0,
+          backgroundColor: colors.background,
+        }}
+      />
+    </>
+  );
+};
+
 export default () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <SafeAreaProvider>
           <NavigationContainer ref={navigationContainer}>
+            <TopSafeArea />
             <App />
           </NavigationContainer>
         </SafeAreaProvider>
@@ -93,6 +115,7 @@ const AddNewUserStack = () => {
 
 const MainBottomTabNavigator = () => {
   const Tab = createBottomTabNavigator();
+  const safeAreaInsets = useSafeAreaInsets();
 
   return (
     <Tab.Navigator
@@ -105,6 +128,7 @@ const MainBottomTabNavigator = () => {
         tabBarStyle: {
           backgroundColor: colors.primary,
           borderTopWidth: 0,
+          height: 60 + safeAreaInsets.bottom,
         },
       }}>
       <Tab.Screen

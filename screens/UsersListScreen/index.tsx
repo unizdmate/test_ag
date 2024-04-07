@@ -1,11 +1,12 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, FlatList} from 'react-native';
 import React, {useEffect} from 'react';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
-import {colors} from '../../constants/theme';
+import {colors, sizings} from '../../constants/theme';
 import {useSelector} from 'react-redux';
 import {useAppDispatch} from '../../hooks';
 import {addNewUser, fetchUsers} from '../../store/slices/users';
 import {RootState} from '../../store';
+import {UserItem} from './components/UserItem';
 
 const UsersListScreen = () => {
   const navigation = useNavigation();
@@ -34,31 +35,25 @@ const UsersListScreen = () => {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: colors.background,
-      }}>
-      <Text
-        onPress={() => doAddUser(null)}
-        style={{
-          fontSize: 16,
-          color: colors.textSecondary,
-          fontWeight: 'normal',
-        }}>
-        Users list
-      </Text>
-      {users.users.map((user, index) => (
-        <Text key={index} style={{color: colors.textPrimary}}>
-          {user.name}
-        </Text>
-      ))}
+    <View style={styles.screenContainer}>
+      <FlatList
+        style={{width: '100%'}}
+        data={users.users}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({item}) => <UserItem {...item} />}
+      />
     </View>
   );
 };
 
 export default UsersListScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  screenContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.background,
+    padding: sizings.basePadding * 4,
+  },
+});

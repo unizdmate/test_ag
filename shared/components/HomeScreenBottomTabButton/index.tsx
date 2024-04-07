@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import {Animated, Image, Pressable, StyleSheet, View} from 'react-native';
-import {colors} from '../../constants/theme';
+import {colors} from '../../../constants/theme';
 import {BottomTabBarButtonProps} from '@react-navigation/bottom-tabs';
-import {homeScreen} from '../../constants/icons';
+import {homeScreen} from '../../../constants/icons';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
