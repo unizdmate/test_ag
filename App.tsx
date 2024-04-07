@@ -10,14 +10,20 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {HomeScreenBottomTabButton} from './components/HomeScreenBottomTabButton';
+import {TabBarLabel} from './components/TabBarLabel';
 import {colors} from './constants/theme';
+import AddNewUserScreen from './screens/AddNewUserScreen';
 import HomeScreen from './screens/HomeScreen';
 import UsersListScreen from './screens/UsersListScreen';
 import {persistor, store} from './store';
-import AddNewUserScreen from './screens/AddNewUserScreen';
-import TabBarLabel from './components/TabBarLabel';
 
 const navigationContainer = createNavigationContainerRef();
+
+enum Routes {
+  HOME = 'Home',
+  USER_ADMINITRATION = 'Administration',
+  ADD_USER = 'Add New User',
+}
 
 const App = () => {
   return <MainBottomTabNavigator />;
@@ -106,7 +112,7 @@ const MainBottomTabNavigator = () => {
         component={UserAdministrationStack}
         options={{
           tabBarLabel: props => (
-            <TabBarLabel {...props}>List of Users</TabBarLabel>
+            <TabBarLabel {...props}>{Routes.USER_ADMINITRATION}</TabBarLabel>
           ),
         }}
       />
@@ -122,7 +128,7 @@ const MainBottomTabNavigator = () => {
         component={AddNewUserStack}
         options={{
           tabBarLabel: props => (
-            <TabBarLabel {...props}>Add New User</TabBarLabel>
+            <TabBarLabel {...props}>{Routes.ADD_USER}</TabBarLabel>
           ),
         }}
       />

@@ -10,7 +10,7 @@ type TabBarLabelProps = {
   children: string;
 };
 
-const TabBarLabel = ({focused, children}: TabBarLabelProps) => {
+export const TabBarLabel = ({focused, children}: TabBarLabelProps) => {
   return (
     <View>
       <Text style={focused ? styles.activeLabel : styles.inactiveLabel}>
@@ -19,8 +19,6 @@ const TabBarLabel = ({focused, children}: TabBarLabelProps) => {
     </View>
   );
 };
-
-export default TabBarLabel;
 
 const styles = StyleSheet.create({
   activeLabel: {
