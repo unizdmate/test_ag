@@ -1,8 +1,8 @@
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
-import {User} from '../../../shared/types';
-import {colors, sizings} from '../../../constants/theme';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {rightArrow} from '../../../constants/icons';
+import {colors, sizings} from '../../../constants/theme';
+import {User} from '../../../shared/types';
 
 enum Labels {
   NAME = 'Name',
@@ -52,14 +52,7 @@ export const UserItem = (props: User) => {
               {props.company.name}
             </Text>
             <View style={{flex: 1}} />
-            <Image
-              source={rightArrow}
-              style={{
-                tintColor: colors.secondary,
-                width: 16,
-                height: 16,
-              }}
-            />
+            <Image source={rightArrow} style={styles.rightArrowImage} />
           </View>
         </View>
       </View>
@@ -94,5 +87,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'normal',
     color: colors.textPrimary,
+  },
+  rightArrowImage: {
+    tintColor: colors.secondary,
+    width: 16,
+    height: 16,
   },
 });

@@ -7,6 +7,7 @@ import {useAppDispatch} from '../../hooks';
 import {addNewUser, fetchUsers} from '../../store/slices/users';
 import {RootState} from '../../store';
 import {UserItem} from './components/UserItem';
+import {TextInput} from '../../shared/components/TextInput';
 
 const UsersListScreen = () => {
   const navigation = useNavigation();
