@@ -8,3 +8,12 @@ export const getUsers = async () => {
     throw error;
   }
 };
+
+export const addUser = async (user: any) => {
+  try {
+    const response = await axios.post('/users', user);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

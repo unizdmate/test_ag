@@ -50,6 +50,18 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
   }
 });
 
+export const addNewUser = createAsyncThunk(
+  'users/addNewUser',
+  async (user: any) => {
+    try {
+      const response = await usersService.addUser(user);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
 const usersSlice = createSlice({
   name: 'users',
   initialState,
@@ -64,6 +76,16 @@ const usersSlice = createSlice({
         state.users = action.payload;
       })
       .addCase(fetchUsers.rejected, state => {
+        state.status = 'failed';
+      })
+      .addCase(addNewUser.pending, state => {
+        state.status = 'loading';
+      })
+      .addCase(addNewUser.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.users.push(action.payload);
+      })
+      .addCase(addNewUser.rejected, state => {
         state.status = 'failed';
       });
   },

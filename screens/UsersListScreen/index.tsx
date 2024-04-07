@@ -4,7 +4,7 @@ import {useNavigation, useIsFocused} from '@react-navigation/native';
 import {colors} from '../../constants/theme';
 import {useSelector} from 'react-redux';
 import {useAppDispatch} from '../../hooks';
-import {fetchUsers} from '../../store/slices/users';
+import {addNewUser, fetchUsers} from '../../store/slices/users';
 import {RootState} from '../../store';
 
 const UsersListScreen = () => {
@@ -28,6 +28,11 @@ const UsersListScreen = () => {
       navigation.goBack();
     }
   };
+
+  const doAddUser = async (user: any) => {
+    dispatch(addNewUser(user));
+  };
+
   return (
     <View
       style={{
@@ -37,7 +42,7 @@ const UsersListScreen = () => {
         backgroundColor: colors.background,
       }}>
       <Text
-        onPress={goBack}
+        onPress={() => doAddUser(null)}
         style={{
           fontSize: 16,
           color: colors.textSecondary,
