@@ -14,6 +14,8 @@ import {colors} from './constants/theme';
 import HomeScreen from './screens/HomeScreen';
 import UsersListScreen from './screens/UsersListScreen';
 import {persistor, store} from './store';
+import AddNewUserScreen from './screens/AddNewUserScreen';
+import TabBarLabel from './components/TabBarLabel';
 
 const navigationContainer = createNavigationContainerRef();
 
@@ -56,13 +58,29 @@ const UserAdministrationStack = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName="AddUser"
+      initialRouteName="UserList"
       screenOptions={{
         headerShown: false,
         animation: 'simple_push',
         animationDuration: 250,
       }}>
       <Stack.Screen name="UsersList" component={UsersListScreen} />
+    </Stack.Navigator>
+  );
+};
+
+const AddNewUserStack = () => {
+  const Stack = createNativeStackNavigator();
+
+  return (
+    <Stack.Navigator
+      initialRouteName="AddNewUser"
+      screenOptions={{
+        headerShown: false,
+        animation: 'simple_push',
+        animationDuration: 250,
+      }}>
+      <Stack.Screen name="AddNewUser" component={AddNewUserScreen} />
     </Stack.Navigator>
   );
 };
@@ -79,10 +97,19 @@ const MainBottomTabNavigator = () => {
         tabBarShowLabel: true,
         tabBarIconStyle: {display: 'none'},
         tabBarStyle: {
-          backgroundColor: colors.background,
+          backgroundColor: colors.primary,
           borderTopWidth: 0,
         },
       }}>
+      <Tab.Screen
+        name="UserAdministrationStack"
+        component={UserAdministrationStack}
+        options={{
+          tabBarLabel: props => (
+            <TabBarLabel {...props}>List of Users</TabBarLabel>
+          ),
+        }}
+      />
       <Tab.Screen
         name="HomeStack"
         component={HomeStack}
@@ -91,10 +118,12 @@ const MainBottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="UserAdministrationStack"
-        component={UserAdministrationStack}
+        name="AddNewUserStack"
+        component={AddNewUserStack}
         options={{
-          tabBarButton: () => null,
+          tabBarLabel: props => (
+            <TabBarLabel {...props}>Add New User</TabBarLabel>
+          ),
         }}
       />
     </Tab.Navigator>
