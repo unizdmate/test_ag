@@ -5,11 +5,13 @@ import {User} from '../../shared/types';
 type UserState = {
   status: 'idle' | 'loading' | 'failed';
   users: User[];
+  user: User | null;
 };
 
 const initialState: UserState = {
   status: 'loading',
   users: [],
+  user: null,
 };
 
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
@@ -20,6 +22,18 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
     throw error;
   }
 });
+
+export const fetchUserById = createAsyncThunk(
+  'users/fetchUserById',
+  async (userId: number) => {
+    try {
+      const response = await usersService.getUserById(userId);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
 
 export const addNewUser = createAsyncThunk(
   'users/addNewUser',
@@ -36,7 +50,12 @@ export const addNewUser = createAsyncThunk(
 const usersSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    resetUserState: state => {
+      state.status = 'idle';
+      state.user = null;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchUsers.pending, state => {
@@ -47,6 +66,16 @@ const usersSlice = createSlice({
         state.users = action.payload;
       })
       .addCase(fetchUsers.rejected, state => {
+        state.status = 'failed';
+      })
+      .addCase(fetchUserById.pending, state => {
+        state.status = 'loading';
+      })
+      .addCase(fetchUserById.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.user = action.payload;
+      })
+      .addCase(fetchUserById.rejected, state => {
         state.status = 'failed';
       })
       .addCase(addNewUser.pending, state => {
@@ -62,5 +91,6 @@ const usersSlice = createSlice({
   },
 });
 
-const {reducer} = usersSlice;
+const {actions, reducer} = usersSlice;
+export const {resetUserState} = actions;
 export {reducer as usersReducer};

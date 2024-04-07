@@ -11,9 +11,17 @@ enum Labels {
   COMPANY = 'Company',
 }
 
-export const UserItem = (props: User) => {
+type ExtenderProps = {
+  onPress: (userId: number) => void;
+};
+
+type UserItemProps = User & ExtenderProps;
+
+export const UserItem = (props: UserItemProps) => {
   return (
-    <TouchableOpacity activeOpacity={0.75}>
+    <TouchableOpacity
+      activeOpacity={0.75}
+      onPress={() => props.onPress(props.id)}>
       <View style={styles.componentWrapper}>
         <View style={styles.column}>
           <View style={styles.labelWrapper}>

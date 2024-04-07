@@ -6,20 +6,23 @@ interface TextInputProps {
   label: string;
   value: string;
   onChangeText: (text: string) => void;
+  disabled?: boolean;
 }
 
 export const TextInput: React.FC<TextInputProps> = ({
   label,
   value,
   onChangeText,
+  disabled = false,
 }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <RNTextInput
-        style={styles.input}
+        style={[styles.input, disabled && {opacity: 0.75}]}
         value={value}
         onChangeText={onChangeText}
+        editable={!disabled}
       />
     </View>
   );

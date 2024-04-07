@@ -9,6 +9,15 @@ export const getUsers = async () => {
   }
 };
 
+export const getUserById = async (userId: number) => {
+  try {
+    const response = await axios.get(`/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const addUser = async (user: any) => {
   try {
     const response = await axios.post('/users', user);

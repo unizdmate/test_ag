@@ -19,6 +19,7 @@ import AddNewUserScreen from './screens/AddNewUserScreen';
 import HomeScreen from './screens/HomeScreen';
 import UsersListScreen from './screens/UsersListScreen';
 import {persistor, store} from './store';
+import UserDetailsScreen from './screens/UserDetailsScreen';
 
 const navigationContainer = createNavigationContainerRef();
 
@@ -93,6 +94,7 @@ const UserAdministrationStack = () => {
         animationDuration: 250,
       }}>
       <Stack.Screen name="UsersList" component={UsersListScreen} />
+      <Stack.Screen name="UserDetails" component={UserDetailsScreen} />
     </Stack.Navigator>
   );
 };

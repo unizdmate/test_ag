@@ -1,20 +1,31 @@
-import {StyleSheet, Text, View, FlatList} from 'react-native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import React, {useEffect} from 'react';
-import {useNavigation, useIsFocused} from '@react-navigation/native';
-import {colors, sizings} from '../../constants/theme';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';
+import {colors, sizings} from '../../constants/theme';
 import {useAppDispatch} from '../../hooks';
-import {addNewUser, fetchUsers} from '../../store/slices/users';
 import {RootState} from '../../store';
+import {fetchUsers} from '../../store/slices/users';
 import {UserItem} from './components/UserItem';
-import {TextInput} from '../../shared/components/TextInput';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {UserAdministrationStackParamList} from '../../navigation/navigationStackParams';
+
+type UsersListNavigationProp = StackNavigationProp<
+  UserAdministrationStackParamList,
+  'UsersList'
+>;
 
 const UsersListScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<UsersListNavigationProp>();
+
   const isFocused = useIsFocused();
 
   const dispatch = useAppDispatch();
   const users = useSelector((state: RootState) => state.users);
+
+  const navigateToUserDetails = (userId: number) => {
+    navigation.navigate('UserDetails', {userId});
+  };
 
   useEffect(() => {
     if (isFocused) {
@@ -25,23 +36,15 @@ const UsersListScreen = () => {
     };
   }, [isFocused, navigation]);
 
-  const goBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    }
-  };
-
-  const doAddUser = async (user: any) => {
-    dispatch(addNewUser(user));
-  };
-
   return (
     <View style={styles.screenContainer}>
       <FlatList
         style={{width: '100%'}}
         data={users.users}
         keyExtractor={item => item.id.toString()}
-        renderItem={({item}) => <UserItem {...item} />}
+        renderItem={({item}) => (
+          <UserItem {...item} onPress={navigateToUserDetails} />
+        )}
       />
     </View>
   );
