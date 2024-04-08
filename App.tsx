@@ -14,12 +14,13 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {HomeScreenBottomTabButton} from './shared/components/HomeScreenBottomTabButton';
 import {TabBarLabel} from './shared/components/TabBarLabel';
-import {colors} from './constants/theme';
+import {colors, sizings} from './constants/theme';
 import AddNewUserScreen from './screens/AddNewUserScreen';
 import HomeScreen from './screens/HomeScreen';
 import UsersListScreen from './screens/UsersListScreen';
 import {persistor, store} from './store';
 import UserDetailsScreen from './screens/UserDetailsScreen';
+import {ToastProvider} from 'react-native-toast-notifications';
 
 const navigationContainer = createNavigationContainerRef();
 
@@ -55,12 +56,28 @@ export default () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <SafeAreaProvider>
-          <NavigationContainer ref={navigationContainer}>
-            <TopSafeArea />
-            <App />
-          </NavigationContainer>
-        </SafeAreaProvider>
+        <ToastProvider
+          placement="top"
+          offset={sizings.baseMargin * 12}
+          duration={5000}
+          animationType="slide-in"
+          animationDuration={250}
+          swipeEnabled={true}
+          successColor={colors.secondary}
+          dangerColor={colors.danger}
+          normalColor={colors.primary}
+          textStyle={{
+            fontSize: 16,
+            color: colors.textPrimary,
+            fontWeight: 'normal',
+          }}>
+          <SafeAreaProvider>
+            <NavigationContainer ref={navigationContainer}>
+              <TopSafeArea />
+              <App />
+            </NavigationContainer>
+          </SafeAreaProvider>
+        </ToastProvider>
       </PersistGate>
     </Provider>
   );

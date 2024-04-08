@@ -27,6 +27,7 @@ import {TextInput} from '../../shared/components/TextInput';
 import {User} from '../../shared/types';
 import {updateExistingUser} from '../../store/slices/users';
 import {userValidationSchema} from '../../shared/validation';
+import {useToast} from 'react-native-toast-notifications';
 
 type NavigationParamList = {
   params: {
@@ -58,11 +59,16 @@ enum Labels {
   HIDE = 'Hide',
 }
 
-const DISCLAIMER = `This block servers only to show which data would be submitted if we were using an actual API.
+enum Messages {
+  SUCCESS = 'User data edited successfully.',
+  ERROR = 'Oops! Something went wrong. Please try again.',
+}
 
-Since we are using JsonPlaceholder API, we can't actually update the data.
+const DISCLAIMER = `This section is purely demonstrative, illustrating the data that would be submitted if we were interfacing with a live API.
 
-Whichever data we send, the API will return status 201.`;
+Given our use of the JsonPlaceholder API, actual data updates are not possible.
+
+Regardless of the data transmitted, the API will consistently return a status of 201.`;
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
@@ -78,6 +84,8 @@ const UserDetailsScreen = () => {
   const dispatch = useAppDispatch();
 
   const {bottom: safeAreaInsetsBottom} = useSafeAreaInsets();
+
+  const toast = useToast();
 
   const bottom =
     Platform.OS === 'android'
@@ -147,9 +155,14 @@ const UserDetailsScreen = () => {
   }, [submittedData]);
 
   const onSubmit = async (data: User) => {
-    await dispatch(updateExistingUser(data));
-    showSubmittedData(data);
-    setEditMode(prev => !prev);
+    try {
+      await dispatch(updateExistingUser(data));
+      showSubmittedData(data);
+      setEditMode(prev => !prev);
+      toast.show(Messages.SUCCESS, {type: 'success'});
+    } catch (error) {
+      toast.show(Messages.ERROR, {type: 'error'});
+    }
   };
 
   return (
