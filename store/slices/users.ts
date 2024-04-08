@@ -47,6 +47,18 @@ export const addNewUser = createAsyncThunk(
   },
 );
 
+export const updateExistingUser = createAsyncThunk(
+  'users/updateExistingUser',
+  async (user: User) => {
+    try {
+      const response = await usersService.updateUser(user);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
 const usersSlice = createSlice({
   name: 'users',
   initialState,

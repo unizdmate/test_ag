@@ -1,3 +1,4 @@
+import { User } from '../../shared/types';
 import axios from '../axios';
 
 export const getUsers = async () => {
@@ -26,3 +27,12 @@ export const addUser = async (user: any) => {
     throw error;
   }
 };
+
+export const updateUser = async (user: User) => {
+  try {
+    const response = await axios.put(`/users/${user.id}`, user);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

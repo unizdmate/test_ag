@@ -1,7 +1,7 @@
 import {yupResolver} from '@hookform/resolvers/yup';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {
   Animated,
@@ -20,11 +20,13 @@ import {
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {rightArrow} from '../../constants/icons';
 import {colors, sizings} from '../../constants/theme';
+import {useAppDispatch} from '../../hooks';
 import {UserAdministrationStackParamList} from '../../navigation/navigationStackParams';
 import Button from '../../shared/components/Button';
 import {TextInput} from '../../shared/components/TextInput';
 import {User} from '../../shared/types';
-import {validationSchema} from './validationSchema';
+import {updateExistingUser} from '../../store/slices/users';
+import {validationSchema} from '../../shared/validation';
 
 type NavigationParamList = {
   params: {
@@ -52,15 +54,28 @@ enum Labels {
   DISCARD = 'Discard',
   SAVE = 'Save',
   GO_BACK = 'Go back',
+  SUBMITTED_DATA = 'Submitted data:',
+  HIDE = 'Hide',
 }
+
+const DISCLAIMER = `This block servers only to show which data would be submitted if we were using an actual API.
+
+Since we are using JsonPlaceholder API, we can't actually update the data.
+
+Whichever data we send, the API will return status 201.`;
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
 const UserDetailsScreen = () => {
   const [editMode, setEditMode] = useState(false);
+  const [submittedData, setSubmittedData] = useState<User | null>(null);
+
+  const scrollRef = useRef<ScrollView>(null);
 
   const route = useRoute<RouteProp<NavigationParamList, 'params'>>();
   const navigation = useNavigation<UserDetailsNavigationProp>();
+
+  const dispatch = useAppDispatch();
 
   const {bottom: safeAreaInsetsBottom} = useSafeAreaInsets();
 
@@ -96,18 +111,6 @@ const UserDetailsScreen = () => {
     if (navigation.canGoBack()) navigation.goBack();
   };
 
-  const defaultValues = {
-    name: route.params.user?.name,
-    username: route.params.user?.username,
-    email: route.params.user?.email,
-    street: route.params.user?.address.street,
-    city: route.params.user?.address.city,
-    phone: route.params.user?.phone,
-    website: route.params.user?.website,
-    companyName: route.params.user?.company.name,
-    catchPhrase: route.params.user?.company.catchPhrase,
-  };
-
   const {
     control,
     handleSubmit,
@@ -115,9 +118,39 @@ const UserDetailsScreen = () => {
     formState: {isValid, errors},
   } = useForm({
     mode: 'onChange',
-    defaultValues,
+    defaultValues: route.params.user,
     resolver: yupResolver(validationSchema),
   });
+
+  /**
+   * This function servers only to show which data would be submitted if we were using an actual API.
+   * Since we are using JsonPlaceholder API, we can't actually update the data.
+   * Whichever data we send, the API will return status 201.
+   * @param data
+   */
+  const showSubmittedData = (data: User) => {
+    setSubmittedData(data);
+  };
+
+  const scrollToBottom = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollToEnd({animated: true});
+    }
+  };
+
+  useEffect(() => {
+    if (submittedData) {
+      setTimeout(() => {
+        scrollToBottom();
+      }, 500); // Adjust delay as needed
+    }
+  }, [submittedData]);
+
+  const onSubmit = async (data: User) => {
+    await dispatch(updateExistingUser(data));
+    showSubmittedData(data);
+    setEditMode(prev => !prev);
+  };
 
   return (
     <SafeAreaView
@@ -136,6 +169,7 @@ const UserDetailsScreen = () => {
       </TouchableOpacity>
       <View style={styles.scrollWrapper}>
         <ScrollView
+          ref={scrollRef}
           contentContainerStyle={styles.scrollContainer}
           contentInsetAdjustmentBehavior="always"
           showsVerticalScrollIndicator={false}>
@@ -191,32 +225,34 @@ const UserDetailsScreen = () => {
             />
             <Controller
               control={control}
-              name="street"
+              name="address.street"
               render={({field: {value, onChange}}) => (
                 <TextInput
                   label={
-                    errors.street
-                      ? (errors.street.message as string)
+                    errors.address?.street
+                      ? (errors.address?.street.message as string)
                       : Labels.STREET
                   }
                   value={value}
                   onChangeText={onChange}
-                  error={!!errors.street}
+                  error={!!errors.address?.street}
                   editable={editMode}
                 />
               )}
             />
             <Controller
               control={control}
-              name="city"
+              name="address.city"
               render={({field: {value, onChange}}) => (
                 <TextInput
                   label={
-                    errors.city ? (errors.city.message as string) : Labels.CITY
+                    errors.address?.city
+                      ? (errors.address.city.message as string)
+                      : Labels.CITY
                   }
                   value={value}
                   onChangeText={onChange}
-                  error={!!errors.city}
+                  error={!!errors.address?.city}
                   editable={editMode}
                 />
               )}
@@ -257,39 +293,56 @@ const UserDetailsScreen = () => {
             />
             <Controller
               control={control}
-              name="companyName"
+              name="company.name"
               render={({field: {value, onChange}}) => (
                 <TextInput
                   label={
-                    errors.companyName
-                      ? (errors.companyName.message as string)
+                    errors.company?.name
+                      ? (errors.company.name.message as string)
                       : Labels.COMPANY_NAME
                   }
                   value={value}
                   onChangeText={onChange}
-                  error={!!errors.companyName}
+                  error={!!errors.company?.name}
                   editable={editMode}
                 />
               )}
             />
             <Controller
               control={control}
-              name="catchPhrase"
+              name="company.catchPhrase"
               render={({field: {value, onChange}}) => (
                 <TextInput
                   label={
-                    errors.catchPhrase
-                      ? (errors.catchPhrase.message as string)
+                    errors.company?.catchPhrase
+                      ? (errors.company?.catchPhrase.message as string)
                       : Labels.CATCH_PHRASE
                   }
                   value={value}
                   onChangeText={onChange}
-                  error={!!errors.catchPhrase}
+                  error={!!errors.company?.catchPhrase}
                   editable={editMode}
                 />
               )}
             />
           </View>
+          {submittedData ? (
+            <View style={styles.submittedDataWrapper}>
+              <Text style={styles.submittedDataTitle}>
+                {Labels.SUBMITTED_DATA}
+              </Text>
+              <Text style={styles.disclaimer}>{DISCLAIMER}</Text>
+              <Text style={styles.submittedDataText}>
+                {JSON.stringify(submittedData, null, 2)}
+              </Text>
+              <Button
+                title={Labels.HIDE}
+                onPress={() => setSubmittedData(null)}
+                type="primary"
+                width="100%"
+              />
+            </View>
+          ) : null}
         </ScrollView>
         {editMode ? (
           <AnimatedView
@@ -309,7 +362,7 @@ const UserDetailsScreen = () => {
             />
             <Button
               title={Labels.SAVE}
-              onPress={() => {}}
+              onPress={handleSubmit(onSubmit)}
               type="secondary"
               width="50%"
               disabled={!isValid}
@@ -324,7 +377,10 @@ const UserDetailsScreen = () => {
             ]}>
             <Button
               title={Labels.EDIT}
-              onPress={() => setEditMode(prev => !prev)}
+              onPress={() => {
+                setEditMode(prev => !prev);
+                setSubmittedData(null);
+              }}
               type="accented"
               width="50%"
             />
@@ -383,5 +439,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+  },
+  submittedDataWrapper: {
+    width: '100%',
+    gap: sizings.baseMargin * 2,
+  },
+  submittedDataTitle: {
+    fontSize: 16,
+    color: colors.textPrimary,
+    fontWeight: 'bold',
+  },
+  submittedDataText: {
+    fontSize: 12,
+    color: colors.textSecondary,
+    fontWeight: 'normal',
+  },
+  disclaimer: {
+    fontSize: 12,
+    color: colors.textPrimary,
+    fontWeight: 'bold',
   },
 });
