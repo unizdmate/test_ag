@@ -1,14 +1,12 @@
-import {useIsFocused, useNavigation} from '@react-navigation/native';
-import React, {useEffect} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {colors, sizings} from '../../constants/theme';
-import {useAppDispatch} from '../../hooks';
-import {RootState} from '../../store';
-import {fetchUsers} from '../../store/slices/users';
-import {UserItem} from './components/UserItem';
-import {StackNavigationProp} from '@react-navigation/stack';
 import {UserAdministrationStackParamList} from '../../navigation/navigationStackParams';
+import {RootState} from '../../store';
+import {UserItem} from './components/UserItem';
 
 type UsersListNavigationProp = StackNavigationProp<
   UserAdministrationStackParamList,
@@ -18,9 +16,6 @@ type UsersListNavigationProp = StackNavigationProp<
 const UsersListScreen = () => {
   const navigation = useNavigation<UsersListNavigationProp>();
 
-  const isFocused = useIsFocused();
-
-  const dispatch = useAppDispatch();
   const users = useSelector((state: RootState) => state.users);
 
   const navigateToUserDetails = (userId: number) => {
@@ -29,15 +24,6 @@ const UsersListScreen = () => {
       navigation.navigate('UserDetails', {user});
     }
   };
-
-  useEffect(() => {
-    if (isFocused) {
-      dispatch(fetchUsers());
-    }
-    return () => {
-      // Cleanup
-    };
-  }, [isFocused, navigation]);
 
   return (
     <View style={styles.screenContainer}>

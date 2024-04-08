@@ -1,4 +1,4 @@
-import { User } from '../../shared/types';
+import {User} from '../../shared/types';
 import axios from '../axios';
 
 export const getUsers = async () => {
@@ -35,4 +35,13 @@ export const updateUser = async (user: User) => {
   } catch (error) {
     throw error;
   }
-}
+};
+
+export const deleteUser = async (userId: number) => {
+  try {
+    const response = await axios.delete(`/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

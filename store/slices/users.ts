@@ -59,6 +59,18 @@ export const updateExistingUser = createAsyncThunk(
   },
 );
 
+export const deleteExistingUser = createAsyncThunk(
+  'users/deleteExistingUser',
+  async (userId: number) => {
+    try {
+      const response = await usersService.deleteUser(userId);
+      return userId; // Ideally, the response should be returned here and it should contain the id of the deleted user
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
 const usersSlice = createSlice({
   name: 'users',
   initialState,
@@ -98,6 +110,28 @@ const usersSlice = createSlice({
         state.users.push(action.payload);
       })
       .addCase(addNewUser.rejected, state => {
+        state.status = 'failed';
+      })
+      .addCase(updateExistingUser.pending, state => {
+        state.status = 'loading';
+      })
+      .addCase(updateExistingUser.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.users = state.users.map(user =>
+          user.id === action.payload.id ? action.payload : user,
+        );
+      })
+      .addCase(updateExistingUser.rejected, state => {
+        state.status = 'failed';
+      })
+      .addCase(deleteExistingUser.pending, state => {
+        state.status = 'loading';
+      })
+      .addCase(deleteExistingUser.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.users = state.users.filter(user => user.id !== action.payload); // action.payload is now the userId
+      })
+      .addCase(deleteExistingUser.rejected, state => {
         state.status = 'failed';
       });
   },

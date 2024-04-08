@@ -1,9 +1,9 @@
 import {yupResolver} from '@hookform/resolvers/yup';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useRef, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {
+  Alert,
   Animated,
   Image,
   Platform,
@@ -18,57 +18,22 @@ import {
   useSoftInputHeightChanged,
 } from 'react-native-avoid-softinput';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useToast} from 'react-native-toast-notifications';
 import {rightArrow} from '../../constants/icons';
 import {colors, sizings} from '../../constants/theme';
 import {useAppDispatch} from '../../hooks';
-import {UserAdministrationStackParamList} from '../../navigation/navigationStackParams';
 import Button from '../../shared/components/Button';
 import {TextInput} from '../../shared/components/TextInput';
 import {User} from '../../shared/types';
-import {updateExistingUser} from '../../store/slices/users';
 import {userValidationSchema} from '../../shared/validation';
-import {useToast} from 'react-native-toast-notifications';
-
-type NavigationParamList = {
-  params: {
-    user: User;
-  };
-};
-
-type UserDetailsNavigationProp = StackNavigationProp<
-  UserAdministrationStackParamList,
-  'UserDetails'
->;
-
-enum Labels {
-  NAME = 'Name',
-  USERNAME = 'Username',
-  EMAIL = 'Email',
-  STREET = 'Street',
-  CITY = 'City',
-  PHONE = 'Phone',
-  WEBSITE = 'Website',
-  COMPANY_NAME = 'Company Name',
-  CATCH_PHRASE = 'Company Catch Phrase',
-  EDIT = 'Edit',
-  DELETE = 'Delete',
-  DISCARD = 'Discard',
-  SAVE = 'Save',
-  GO_BACK = 'Go back',
-  SUBMITTED_DATA = 'Submitted data:',
-  HIDE = 'Hide',
-}
-
-enum Messages {
-  SUCCESS = 'User data edited successfully.',
-  ERROR = 'Oops! Something went wrong. Please try again.',
-}
-
-const DISCLAIMER = `This section is purely demonstrative, illustrating the data that would be submitted if we were interfacing with a live API.
-
-Given our use of the JsonPlaceholder API, actual data updates are not possible.
-
-Regardless of the data transmitted, the API will consistently return a status of 201.`;
+import {deleteExistingUser, updateExistingUser} from '../../store/slices/users';
+import {
+  Disclaimers,
+  Labels,
+  Messages,
+  NavigationParamList,
+  UserDetailsNavigationProp,
+} from './types';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
@@ -86,6 +51,14 @@ const UserDetailsScreen = () => {
   const {bottom: safeAreaInsetsBottom} = useSafeAreaInsets();
 
   const toast = useToast();
+
+  useEffect(() => {
+    if (submittedData) {
+      setTimeout(() => {
+        scrollToPosition();
+      }, 500); // Adjust delay as needed
+    }
+  }, [submittedData]);
 
   const bottom =
     Platform.OS === 'android'
@@ -131,35 +104,64 @@ const UserDetailsScreen = () => {
   });
 
   /**
-   * This function servers only to show which data would be submitted if we were using an actual API.
-   * Since we are using JsonPlaceholder API, we can't actually update the data.
-   * Whichever data we send, the API will return status 201.
-   * @param data
+   * This function is designed to simulate the data submission process to an API endpoint.
+   * Given the use of the JsonPlaceholder API, actual data updates are not possible.
+   * Regardless of the data transmitted, the API will consistently return a status of 201.
+   * @param data - The user data that would be submitted in a live API scenario.
    */
   const showSubmittedData = (data: User) => {
     setSubmittedData(data);
   };
 
-  const scrollToBottom = () => {
+  const scrollToPosition = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollToEnd({animated: true});
+      scrollRef.current.scrollTo({x: 0, y: 250, animated: true});
     }
   };
-
-  useEffect(() => {
-    if (submittedData) {
-      setTimeout(() => {
-        scrollToBottom();
-      }, 500); // Adjust delay as needed
-    }
-  }, [submittedData]);
 
   const onSubmit = async (data: User) => {
     try {
       await dispatch(updateExistingUser(data));
       showSubmittedData(data);
       setEditMode(prev => !prev);
-      toast.show(Messages.SUCCESS, {type: 'success'});
+      toast.show(Messages.EDIT_SUCCESS, {type: 'success'});
+    } catch (error) {
+      toast.show(Messages.ERROR, {type: 'error'});
+    }
+  };
+
+  const onDeleteUser = (userId: number) => {
+    Alert.alert(
+      Labels.WARNING_DELETE,
+      Disclaimers.DELETE_DISCLAIMER,
+      [
+        {
+          text: Labels.CANCEL,
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: Labels.OK,
+          onPress: () => deleteUser(userId),
+          style: 'destructive',
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
+  /**
+   * This asynchronous function simulates the deletion of a user based on their unique identifier.
+   * It dispatches an action to delete the user, displays a success toast message, and navigates back to the previous screen.
+   * Given the use of the JsonPlaceholder API, actual deletion is not possible and the API will consistently return a status of 200.
+   * If an error occurs during the operation, it displays an error toast message.
+   * @param userId - The unique identifier of the user to be deleted.
+   */
+  const deleteUser = async (userId: number) => {
+    try {
+      await dispatch(deleteExistingUser(userId));
+      toast.show(Messages.DELETE_SUCCESS, {type: 'success'});
+      goBack();
     } catch (error) {
       toast.show(Messages.ERROR, {type: 'error'});
     }
@@ -344,7 +346,9 @@ const UserDetailsScreen = () => {
               <Text style={styles.submittedDataTitle}>
                 {Labels.SUBMITTED_DATA}
               </Text>
-              <Text style={styles.disclaimer}>{DISCLAIMER}</Text>
+              <Text style={styles.disclaimer}>
+                {Disclaimers.EDIT_DISCLAIMER}
+              </Text>
               <Text style={styles.submittedDataText}>
                 {JSON.stringify(submittedData, null, 2)}
               </Text>
@@ -399,7 +403,7 @@ const UserDetailsScreen = () => {
             />
             <Button
               title={Labels.DELETE}
-              onPress={() => {}}
+              onPress={() => onDeleteUser(route.params.user.id)}
               type="danger"
               width="50%"
             />

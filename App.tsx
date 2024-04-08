@@ -4,23 +4,25 @@ import {
   createNavigationContainerRef,
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Platform, SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import {ToastProvider} from 'react-native-toast-notifications';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
-import {HomeScreenBottomTabButton} from './shared/components/HomeScreenBottomTabButton';
-import {TabBarLabel} from './shared/components/TabBarLabel';
 import {colors, sizings} from './constants/theme';
+import {useAppDispatch} from './hooks';
 import AddNewUserScreen from './screens/AddNewUserScreen';
 import HomeScreen from './screens/HomeScreen';
-import UsersListScreen from './screens/UsersListScreen';
-import {persistor, store} from './store';
 import UserDetailsScreen from './screens/UserDetailsScreen';
-import {ToastProvider} from 'react-native-toast-notifications';
+import UsersListScreen from './screens/UsersListScreen';
+import {HomeScreenBottomTabButton} from './shared/components/HomeScreenBottomTabButton';
+import {TabBarLabel} from './shared/components/TabBarLabel';
+import {persistor, store} from './store';
+import {fetchUsers} from './store/slices/users';
 
 const navigationContainer = createNavigationContainerRef();
 
@@ -31,6 +33,15 @@ enum Routes {
 }
 
 const App = () => {
+  const dispatch = useAppDispatch();
+  const initializeApp = async () => {
+    await dispatch(fetchUsers()).unwrap();
+    // In real life application, we can add more initialization logic here
+  };
+
+  useEffect(() => {
+    initializeApp();
+  }, []);
   return <MainBottomTabNavigator />;
 };
 
