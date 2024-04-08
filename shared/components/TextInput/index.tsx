@@ -6,23 +6,38 @@ interface TextInputProps {
   label: string;
   value: string;
   onChangeText: (text: string) => void;
-  disabled?: boolean;
+  placeholder?: string;
+  editable?: boolean;
+  error?: boolean;
 }
 
 export const TextInput: React.FC<TextInputProps> = ({
   label,
   value,
   onChangeText,
-  disabled = false,
+  placeholder,
+  editable = true,
+  error = false,
 }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+    <View
+      style={[
+        styles.container,
+        {borderColor: error ? colors.danger : colors.textSecondary},
+      ]}>
+      <Text
+        style={[
+          styles.label,
+          {color: error ? colors.danger : colors.textSecondary},
+        ]}>
+        {label}
+      </Text>
       <RNTextInput
-        style={[styles.input, disabled && {opacity: 0.75}]}
+        style={[styles.input, !editable && {opacity: 0.75}]}
         value={value}
         onChangeText={onChangeText}
-        editable={!disabled}
+        editable={editable}
+        placeholder={value ? '' : placeholder}
       />
     </View>
   );
@@ -31,7 +46,6 @@ export const TextInput: React.FC<TextInputProps> = ({
 const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
-    borderColor: colors.textSecondary,
     borderRadius: 8,
     padding: sizings.basePadding,
     marginBottom: sizings.baseMargin * 2,
@@ -44,7 +58,6 @@ const styles = StyleSheet.create({
     left: sizings.basePadding * 2,
     backgroundColor: colors.background,
     paddingHorizontal: sizings.basePadding,
-    color: colors.textSecondary,
     fontSize: 12,
     fontWeight: 'bold',
   },

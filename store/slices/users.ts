@@ -59,7 +59,7 @@ const usersSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchUsers.pending, state => {
-        state.status = 'loading';
+        return {...state, status: 'loading'};
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.status = 'idle';
