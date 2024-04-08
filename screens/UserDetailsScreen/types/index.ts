@@ -44,15 +44,15 @@ export enum Messages {
 export enum Disclaimers {
   EDIT_DISCLAIMER = `This section is purely demonstrative, illustrating the data that would be submitted if we were interfacing with a live API.
   
-    Given our use of the JsonPlaceholder API, actual data updates are not possible.
+Given our use of the JsonPlaceholder API, actual data updates are not possible.
     
-    Regardless of the data transmitted, the API will consistently return a status of 201.
+Regardless of the data transmitted, the API will consistently return a status of 201.
     
-    We can only persist the data locally in Redux store for the duration of the session.`,
+We can only persist the data locally in Redux store for the duration of the session.`,
 
   DELETE_DISCLAIMER = `This action is purely demonstrative, illustrating the deletion of a user based on their unique identifier.
   
-    Given our use of the JsonPlaceholder API, actual deletion is not possible and the API will consistently return a status of 200.
+Given our use of the JsonPlaceholder API, actual deletion is not possible and the API will consistently return a status of 200.
   
-    We can only persist deletion of user locally in Redux store for the duration of the session.`,
+We can only persist deletion of user locally in Redux store for the duration of the session.`,
 }
