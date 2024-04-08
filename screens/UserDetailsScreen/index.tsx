@@ -343,9 +343,7 @@ const UserDetailsScreen = () => {
           </View>
           {submittedData ? (
             <View style={styles.submittedDataWrapper}>
-              <Text style={styles.submittedDataTitle}>
-                {Labels.SUBMITTED_DATA}
-              </Text>
+              <Text style={styles.submittedDataTitle}>{Labels.DISCLAIMER}</Text>
               <Text style={styles.disclaimer}>
                 {Disclaimers.EDIT_DISCLAIMER}
               </Text>

@@ -30,7 +30,7 @@ export enum Labels {
   DISCARD = 'Discard',
   SAVE = 'Save',
   GO_BACK = 'Go back',
-  SUBMITTED_DATA = 'Submitted data:',
+  DISCLAIMER = 'Disclaimer:',
   HIDE = 'Hide',
   WARNING_DELETE = 'Warning: Delete User',
 }
