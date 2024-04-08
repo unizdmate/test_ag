@@ -1,5 +1,5 @@
-// All api services throughout the app should be imported from this file.
-// This is done to make it easier to import multiple services in one line of code.
 import * as usersService from './users';
+// This file serves as a central hub for all API services used within the application.
+// Consolidating the services in this manner facilitates efficient, single-line imports of multiple services.
 
 export {usersService};

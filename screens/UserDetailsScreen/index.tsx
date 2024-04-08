@@ -26,7 +26,7 @@ import Button from '../../shared/components/Button';
 import {TextInput} from '../../shared/components/TextInput';
 import {User} from '../../shared/types';
 import {updateExistingUser} from '../../store/slices/users';
-import {validationSchema} from '../../shared/validation';
+import {userValidationSchema} from '../../shared/validation';
 
 type NavigationParamList = {
   params: {
@@ -119,7 +119,7 @@ const UserDetailsScreen = () => {
   } = useForm({
     mode: 'onChange',
     defaultValues: route.params.user,
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(userValidationSchema),
   });
 
   /**

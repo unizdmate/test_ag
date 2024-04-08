@@ -13,6 +13,10 @@ import {
 import persistReducer from 'redux-persist/lib/persistReducer';
 import {usersReducer} from './slices/users';
 
+/**
+ * Configuration object for redux-persist.
+ * Defines how the state should be persisted and rehydrated.
+ */
 const persistConfig = {
   key: 'root',
   version: 1,
@@ -22,6 +26,11 @@ const persistConfig = {
   debug: false,
 };
 
+/**
+ * The root reducer of the application.
+ * It combines all the reducers of the application into a single reducer function.
+ * The state produced by rootReducer is persisted using redux-persist.
+ */
 const rootReducer = persistReducer(
   persistConfig,
   combineReducers({
@@ -30,6 +39,11 @@ const rootReducer = persistReducer(
   }),
 );
 
+/**
+ * The Redux store of the application.
+ * It is configured with the root reducer and middleware.
+ * The middleware is configured to ignore certain actions for serializability checks.
+ */
 export const store = configureStore({
   reducer: rootReducer,
   middleware: getDefaultMiddleware =>
