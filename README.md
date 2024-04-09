@@ -1,6 +1,6 @@
 # React Native User Management Application
 
-This React Native application was developed for managing users. It is currently configured to run exclusively on iOS devices. The application utilizes the [JSONPlaceholder API](https://jsonplaceholder.typicode.com/) to fetch and manage user data.
+This React Native application was developed for managing users as per test assignment. It is currently configured to run exclusively on iOS devices. The application utilizes the [JSONPlaceholder API](https://jsonplaceholder.typicode.com/) to fetch and manage user data.
 
 ## Prerequisites
 
