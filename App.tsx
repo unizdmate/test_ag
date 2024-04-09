@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {useEffect} from 'react';
-import {Platform, SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import {Platform, SafeAreaView, StatusBar} from 'react-native';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
@@ -34,6 +34,7 @@ enum Routes {
 
 const App = () => {
   const dispatch = useAppDispatch();
+
   const initializeApp = async () => {
     await dispatch(fetchUsers()).unwrap();
     // In real life application, we can add more initialization logic here
@@ -42,6 +43,7 @@ const App = () => {
   useEffect(() => {
     initializeApp();
   }, []);
+
   return <MainBottomTabNavigator />;
 };
 
@@ -189,5 +191,3 @@ const MainBottomTabNavigator = () => {
     </Tab.Navigator>
   );
 };
-
-const styles = StyleSheet.create({});

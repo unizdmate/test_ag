@@ -144,8 +144,12 @@ const AddNewUserScreen = () => {
   const onSubmit = async (data: User) => {
     try {
       await dispatch(addNewUser(data));
-      toast.show(Messages.ADD_SUCCESS, {type: 'success'});
       reset();
+      toast.show(Messages.ADD_SUCCESS, {type: 'success'});
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'AddNewUser'}],
+      });
       navigateToUsersList();
     } catch (error) {
       toast.show(Messages.ERROR, {type: 'error'});

@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice, isAnyOf} from '@reduxjs/toolkit';
 import {usersService} from '../../api/services';
 import {User} from '../../shared/types';
 
@@ -39,8 +39,8 @@ export const addNewUser = createAsyncThunk(
   'users/addNewUser',
   async (user: any) => {
     try {
-      const response = await usersService.addUser(user);
-      return response;
+      const response = await usersService.addUser(user); // Call the API but do not use response
+      return user; // Ideally, the response should be returned here and it should contain the User object
     } catch (error) {
       throw error;
     }
@@ -63,7 +63,7 @@ export const deleteExistingUser = createAsyncThunk(
   'users/deleteExistingUser',
   async (userId: number) => {
     try {
-      const response = await usersService.deleteUser(userId);
+      const response = await usersService.deleteUser(userId); // Call the API but do not use response
       return userId; // Ideally, the response should be returned here and it should contain the id of the deleted user
     } catch (error) {
       throw error;
@@ -82,38 +82,17 @@ const usersSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchUsers.pending, state => {
-        return {...state, status: 'loading'};
-      })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.status = 'idle';
         state.users = action.payload;
-      })
-      .addCase(fetchUsers.rejected, state => {
-        state.status = 'failed';
-      })
-      .addCase(fetchUserById.pending, state => {
-        state.status = 'loading';
       })
       .addCase(fetchUserById.fulfilled, (state, action) => {
         state.status = 'idle';
         state.user = action.payload;
       })
-      .addCase(fetchUserById.rejected, state => {
-        state.status = 'failed';
-      })
-      .addCase(addNewUser.pending, state => {
-        state.status = 'loading';
-      })
       .addCase(addNewUser.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.users.push(action.payload);
-      })
-      .addCase(addNewUser.rejected, state => {
-        state.status = 'failed';
-      })
-      .addCase(updateExistingUser.pending, state => {
-        state.status = 'loading';
+        state.users.unshift(action.payload);
       })
       .addCase(updateExistingUser.fulfilled, (state, action) => {
         state.status = 'idle';
@@ -121,19 +100,34 @@ const usersSlice = createSlice({
           user.id === action.payload.id ? action.payload : user,
         );
       })
-      .addCase(updateExistingUser.rejected, state => {
-        state.status = 'failed';
-      })
-      .addCase(deleteExistingUser.pending, state => {
-        state.status = 'loading';
-      })
       .addCase(deleteExistingUser.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.users = state.users.filter(user => user.id !== action.payload); // action.payload is now the userId
+        state.users = state.users.filter(user => user.id !== action.payload);
       })
-      .addCase(deleteExistingUser.rejected, state => {
-        state.status = 'failed';
-      });
+      .addMatcher(
+        isAnyOf(
+          fetchUsers.pending,
+          fetchUserById.pending,
+          addNewUser.pending,
+          updateExistingUser.pending,
+          deleteExistingUser.pending,
+        ),
+        state => {
+          state.status = 'loading';
+        },
+      )
+      .addMatcher(
+        isAnyOf(
+          fetchUsers.rejected,
+          fetchUserById.rejected,
+          addNewUser.rejected,
+          updateExistingUser.rejected,
+          deleteExistingUser.rejected,
+        ),
+        state => {
+          state.status = 'failed';
+        },
+      );
   },
 });
 
