@@ -1,6 +1,8 @@
+import {yupResolver} from '@hookform/resolvers/yup';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect} from 'react';
+import {Controller, useForm} from 'react-hook-form';
 import {
   Animated,
   Image,
@@ -10,24 +12,22 @@ import {
   Text,
   View,
 } from 'react-native';
-import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
-import {addUser} from '../../constants/icons';
-import {colors, sizings} from '../../constants/theme';
-import {AddNewUserStackParamList} from '../../navigation/navigationStackParams';
-import {User} from '../../shared/types';
-import {useAppDispatch} from '../../hooks';
-import {useToast} from 'react-native-toast-notifications';
 import {
   AvoidSoftInput,
   useSoftInputHeightChanged,
 } from 'react-native-avoid-softinput';
-import {Controller, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {userValidationSchema} from '../../shared/validation';
-import {generateRandomNumericId} from '../../shared/utils';
-import {addNewUser} from '../../store/slices/users';
-import {TextInput} from '../../shared/components/TextInput';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useToast} from 'react-native-toast-notifications';
+import {addUser} from '../../constants/icons';
+import {colors, sizings} from '../../constants/theme';
+import {useAppDispatch} from '../../hooks';
+import {AddNewUserStackParamList} from '../../navigation/navigationStackParams';
 import Button from '../../shared/components/Button';
+import {TextInput} from '../../shared/components/TextInput';
+import {User} from '../../shared/types';
+import {generateRandomNumericId} from '../../shared/utils';
+import {userValidationSchema} from '../../shared/validation';
+import {addNewUser} from '../../store/slices/users';
 
 export type UserDetailsNavigationProp = StackNavigationProp<
   AddNewUserStackParamList,

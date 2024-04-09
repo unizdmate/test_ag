@@ -39,6 +39,7 @@ export const addNewUser = createAsyncThunk(
   'users/addNewUser',
   async (user: any) => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const response = await usersService.addUser(user); // Call the API but do not use response
       return user; // Ideally, the response should be returned here and it should contain the User object
     } catch (error) {
@@ -63,6 +64,7 @@ export const deleteExistingUser = createAsyncThunk(
   'users/deleteExistingUser',
   async (userId: number) => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const response = await usersService.deleteUser(userId); // Call the API but do not use response
       return userId; // Ideally, the response should be returned here and it should contain the id of the deleted user
     } catch (error) {

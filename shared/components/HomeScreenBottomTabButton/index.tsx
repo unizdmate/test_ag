@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
-import {Animated, Image, Pressable, StyleSheet, View} from 'react-native';
-import {colors, sizings} from '../../../constants/theme';
 import {BottomTabBarButtonProps} from '@react-navigation/bottom-tabs';
+import React, {useEffect, useMemo} from 'react';
+import {Animated, Image, Pressable, StyleSheet} from 'react-native';
 import {homeScreen} from '../../../constants/icons';
+import {colors, sizings} from '../../../constants/theme';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -15,11 +15,11 @@ export const HomeScreenBottomTabButton = ({
     }
   };
 
-  const scale = new Animated.Value(1);
+  const scale = useMemo(() => new Animated.Value(1), []);
 
   useEffect(() => {
     return () => scale?.stopAnimation();
-  }, []);
+  }, [scale]);
 
   const onPressIn = () => {
     Animated.spring(scale, {

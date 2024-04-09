@@ -25,9 +25,9 @@ const UsersListScreen = () => {
   const users = useSelector((state: RootState) => state.users);
 
   const navigateToUserDetails = (userId: number) => {
-    const user = users.users.find(user => user.id === userId);
-    if (user) {
-      navigation.navigate('UserDetails', {user});
+    const userDetails = users.users.find(user => user.id === userId);
+    if (userDetails) {
+      navigation.navigate('UserDetails', {user: userDetails});
     }
   };
 

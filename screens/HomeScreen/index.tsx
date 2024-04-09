@@ -3,7 +3,7 @@ import {
   useIsFocused,
   useNavigation,
 } from '@react-navigation/native';
-import React, {useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {
   Animated,
   BackHandler,
@@ -30,22 +30,22 @@ const HomeScreen = () => {
 
   const scale = useRef(new Animated.Value(0)).current;
 
-  const hideBottomTabBar = () => {
+  const hideBottomTabBar = useCallback(() => {
     navigation.getParent()?.setOptions({
       tabBarStyle: {
         display: 'none',
       },
     });
-  };
+  }, [navigation]);
 
-  const showBottomTabBar = () => {
+  const showBottomTabBar = useCallback(() => {
     navigation.getParent()?.setOptions({
       tabBarStyle: {
         backgroundColor: colors.background,
         borderTopWidth: 0,
       },
     });
-  };
+  }, [navigation]);
 
   const navigateToUsersListScreen = () => {
     Animated.timing(scale, {
@@ -85,7 +85,7 @@ const HomeScreen = () => {
       showBottomTabBar();
       if (backHandler) backHandler.remove();
     };
-  }, [isFocused, navigation]);
+  }, [isFocused, navigation, showBottomTabBar, hideBottomTabBar]);
 
   /**
    * This useEffect hook is responsible for starting an animation after all interactions have been processed
@@ -111,7 +111,7 @@ const HomeScreen = () => {
       task?.cancel();
       scale?.resetAnimation();
     };
-  }, [isFocused]);
+  }, [isFocused, scale]);
 
   return (
     <ScrollView
@@ -122,8 +122,9 @@ const HomeScreen = () => {
         onPress={navigateToUsersListScreen}
         itemTitle={strings.ITEM_TITLE}
         itemExplanation={strings.ITEM_EXPLANATION}
-        icon={usersList}></HomeScreenItem>
-      <AppInfo animatedScale={scale} info={`${name} v${version}`}></AppInfo>
+        icon={usersList}
+      />
+      <AppInfo animatedScale={scale} info={`${name} v${version}`} />
     </ScrollView>
   );
 };

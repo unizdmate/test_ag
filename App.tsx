@@ -4,7 +4,7 @@ import {
   createNavigationContainerRef,
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Platform, SafeAreaView, StatusBar} from 'react-native';
 import {
   SafeAreaProvider,
@@ -35,14 +35,14 @@ enum Routes {
 const App = () => {
   const dispatch = useAppDispatch();
 
-  const initializeApp = async () => {
+  const initializeApp = useCallback(async () => {
     await dispatch(fetchUsers()).unwrap();
     // In real life application, we can add more initialization logic here
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     initializeApp();
-  }, []);
+  }, [initializeApp]);
 
   return <MainBottomTabNavigator />;
 };
@@ -145,6 +145,18 @@ const AddNewUserStack = () => {
   );
 };
 
+const UserAdministrationTabBarLabel = (props: any) => (
+  <TabBarLabel {...props}>{Routes.USER_ADMINITRATION}</TabBarLabel>
+);
+
+const AddUserTabBarLabel = (props: any) => (
+  <TabBarLabel {...props}>{Routes.ADD_USER}</TabBarLabel>
+);
+
+const HomeTabBarButton = (props: any) => (
+  <HomeScreenBottomTabButton {...props} />
+);
+
 const MainBottomTabNavigator = () => {
   const Tab = createBottomTabNavigator();
   const safeAreaInsets = useSafeAreaInsets();
@@ -167,25 +179,21 @@ const MainBottomTabNavigator = () => {
         name="UserAdministrationStack"
         component={UserAdministrationStack}
         options={{
-          tabBarLabel: props => (
-            <TabBarLabel {...props}>{Routes.USER_ADMINITRATION}</TabBarLabel>
-          ),
+          tabBarLabel: UserAdministrationTabBarLabel,
         }}
       />
       <Tab.Screen
         name="HomeStack"
         component={HomeStack}
         options={{
-          tabBarButton: props => <HomeScreenBottomTabButton {...props} />,
+          tabBarButton: HomeTabBarButton,
         }}
       />
       <Tab.Screen
         name="AddNewUserStack"
         component={AddNewUserStack}
         options={{
-          tabBarLabel: props => (
-            <TabBarLabel {...props}>{Routes.ADD_USER}</TabBarLabel>
-          ),
+          tabBarLabel: AddUserTabBarLabel,
         }}
       />
     </Tab.Navigator>
