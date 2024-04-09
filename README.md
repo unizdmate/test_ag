@@ -1,6 +1,6 @@
 # React Native User Management Application
 
-This React Native application was developed for managing users as per test assignment. It is currently configured to run exclusively on iOS devices. The application utilizes the [JSONPlaceholder API](https://jsonplaceholder.typicode.com/) to fetch and manage user data.
+This React Native application was developed for managing users as per test assignment. It is currently configured to run exclusively on iOS devices. The application utilizes the [JSONPlaceholder API](https://jsonplaceholder.typicode.com/) to fetch mock user data.
 
 ## Prerequisites
 
@@ -50,7 +50,7 @@ The application provides the following features:
 
 ## API Usage
 
-This application uses the [JSONPlaceholder API](https://jsonplaceholder.typicode.com/) to fetch and manage user data. The API is a free-to-use fake REST API for testing and prototyping. Please note that as the JSONPlaceholder API does not contain some of the fields and properties listed as requirements in the test assignment (e.g., user role), substitutions have been made with fields and properties included in the JSONPlaceholder API response.
+This application uses the [JSONPlaceholder API](https://jsonplaceholder.typicode.com/) to fetch mock user data. The API is a free-to-use fake REST API for testing and prototyping. Please note that as the JSONPlaceholder API does not contain some of the fields and properties listed as requirements in the test assignment (e.g., user role), substitutions have been made with fields and properties included in the JSONPlaceholder API response.
 
 ## Contact
 
