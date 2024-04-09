@@ -18,11 +18,11 @@ Follow these steps to install the application:
 2. Navigate to the project directory
 3. Install the dependencies:
 
-\`\`\`bash
-npm install
-cd ios
-pod install
-\`\`\`
+`npm install`
+
+`cd ios`
+
+`pod install`
 
 ## Running the Application
 
@@ -30,15 +30,11 @@ To run the application on iOS, follow these steps:
 
 1. Start the Metro Server:
 
-\`\`\`bash
-npm start
-\`\`\`
+`npm start`
 
 2. In a new terminal, start your iOS app:
 
-\`\`\`bash
-npm run ios
-\`\`\`
+`npm run ios`
 
 If everything is set up correctly, you should see your new app running in the iOS Simulator shortly.
 
@@ -56,19 +52,9 @@ The application provides the following features:
 
 This application uses the [JSONPlaceholder API](https://jsonplaceholder.typicode.com/) to fetch and manage user data. The API is a free-to-use fake REST API for testing and prototyping. Please note that as the JSONPlaceholder API does not contain some of the fields and properties listed as requirements in the test assignment (e.g., user role), substitutions have been made with fields and properties included in the JSONPlaceholder API response.
 
-## Contributing to the Application
-
-To contribute to the application, follow these steps:
-
-1. Fork the repository
-2. Create a new branch: `git checkout -b <branch_name>`
-3. Make your changes and commit them: `git commit -m '<commit_message>'`
-4. Push to the original branch: `git push origin <project_name>/<location>`
-5. Create the pull request
-
 ## Contact
 
-If you want to contact me, you can reach me at `<your_email@domain.com>`.
+If you want to contact me, you can reach me at `krezicm@gmail.com`.
 
 ## Notice
 
