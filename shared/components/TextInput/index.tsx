@@ -2,14 +2,14 @@ import {StyleSheet, Text, View, TextInput as RNTextInput} from 'react-native';
 import React from 'react';
 import {colors, sizings} from '../../../constants/theme';
 
-interface TextInputProps {
+type TextInputProps = {
   label: string;
   value: string;
   onChangeText: (text: string) => void;
   placeholder?: string;
   editable?: boolean;
   error?: boolean;
-}
+};
 
 export const TextInput: React.FC<TextInputProps> = ({
   label,

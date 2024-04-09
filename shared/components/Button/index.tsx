@@ -2,13 +2,13 @@ import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {colors, sizings} from '../../../constants/theme';
 
-interface ButtonProps {
+type ButtonProps = {
   title: string;
   onPress: () => void;
   type: 'primary' | 'secondary' | 'accented' | 'danger';
   width: '50%' | '100%';
   disabled?: boolean;
-}
+};
 
 const Button: React.FC<ButtonProps> = ({
   title,
