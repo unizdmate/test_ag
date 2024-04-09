@@ -1,6 +1,6 @@
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {colors} from '../../../constants/theme';
+import {colors, sizings} from '../../../constants/theme';
 
 interface ButtonProps {
   title: string;
@@ -73,8 +73,8 @@ export default Button;
 const styles = StyleSheet.create({
   button: {
     borderWidth: 1,
-    padding: 10,
-    borderRadius: 5,
+    padding: sizings.basePadding * 2.5,
+    borderRadius: sizings.baseRadius * 2,
     alignItems: 'center',
     justifyContent: 'center',
   },

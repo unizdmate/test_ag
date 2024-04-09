@@ -46,7 +46,7 @@ export const TextInput: React.FC<TextInputProps> = ({
 const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: sizings.baseRadius * 2,
     padding: sizings.basePadding,
     marginBottom: sizings.baseMargin * 2,
     position: 'relative',

@@ -61,7 +61,7 @@ const homeScreenItemStyles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 10,
     backgroundColor: colors.primary,
-    borderRadius: 20,
+    borderRadius: sizings.baseRadius * 5,
   },
   item: {
     flexDirection: 'row',
@@ -88,7 +88,7 @@ const homeScreenItemStyles = StyleSheet.create({
   imageContainer: {
     width: 80,
     height: 80,
-    borderRadius: 80,
+    borderRadius: sizings.baseRadius * 20,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.secondary,

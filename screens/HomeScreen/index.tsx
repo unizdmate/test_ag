@@ -147,13 +147,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    gap: 10,
+    gap: sizings.baseGap * 2,
   },
   appDetails: {
     fontSize: 12,
     color: colors.textSecondary,
     fontWeight: 'bold',
     position: 'absolute',
-    bottom: 10,
+    bottom: sizings.baseMargin * 2,
   },
 });

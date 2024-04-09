@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Animated, Image, Pressable, StyleSheet, View} from 'react-native';
-import {colors} from '../../../constants/theme';
+import {colors, sizings} from '../../../constants/theme';
 import {BottomTabBarButtonProps} from '@react-navigation/bottom-tabs';
 import {homeScreen} from '../../../constants/icons';
 
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   pressable: {
     width: 60,
     height: 60,
-    borderRadius: 30,
+    borderRadius: sizings.baseRadius * 8,
     backgroundColor: colors.secondary,
     justifyContent: 'center',
     alignItems: 'center',

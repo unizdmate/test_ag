@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: sizings.baseMargin * 2,
+    gap: sizings.baseGap * 2,
     paddingVertical: sizings.basePadding * 4,
   },
   headerImage: {
@@ -367,12 +367,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexGrow: 1,
   },
-  formWrapper: {width: '100%', gap: 16, marginTop: 16},
+  formWrapper: {
+    width: '100%',
+    gap: sizings.baseGap * 4,
+    marginTop: sizings.baseMargin * 4,
+  },
   buttonContainer: {
     width: '100%',
     paddingHorizontal: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: sizings.baseGap * 2,
   },
 });

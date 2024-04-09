@@ -75,11 +75,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: sizings.basePadding * 4,
     borderWidth: 1,
     borderColor: colors.textSecondary,
-    borderRadius: 8,
+    borderRadius: sizings.baseRadius * 2,
     marginBottom: sizings.baseMargin * 4,
   },
   column: {
-    gap: 4,
+    gap: sizings.baseGap,
   },
   labelWrapper: {
     flexDirection: 'row',

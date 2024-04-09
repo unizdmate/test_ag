@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: sizings.baseMargin * 2,
+    gap: sizings.baseGap * 2,
     paddingVertical: sizings.basePadding * 4,
   },
   headerImage: {
