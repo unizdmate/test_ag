@@ -12,3 +12,7 @@ export type UserAdministrationStackParamList = {
   UsersList: undefined;
   UserDetails: {user: User};
 };
+
+export type AddNewUserStackParamList = {
+  AddNewUser: undefined;
+};
