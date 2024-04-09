@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {CommonActions, useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
@@ -8,6 +8,7 @@ import {UserAdministrationStackParamList} from '../../navigation/navigationStack
 import {RootState} from '../../store';
 import {UserItem} from './components/UserItem';
 import {usersList} from '../../constants/icons';
+import EmptyList from './components/EmptyList';
 
 type UsersListNavigationProp = StackNavigationProp<
   UserAdministrationStackParamList,
@@ -30,6 +31,15 @@ const UsersListScreen = () => {
     }
   };
 
+  const navigateToAddNewUser = () => {
+    navigation.dispatch(
+      CommonActions.navigate('AddNewUserStack', {
+        screen: 'AddNewUser',
+        initial: false,
+      }),
+    );
+  };
+
   return (
     <View style={styles.screenContainer}>
       <View style={styles.headerWrapper}>
@@ -43,6 +53,9 @@ const UsersListScreen = () => {
         renderItem={({item}) => (
           <UserItem {...item} onPress={navigateToUserDetails} />
         )}
+        ListEmptyComponent={
+          <EmptyList navigateToAddNewUser={navigateToAddNewUser} />
+        }
       />
     </View>
   );
